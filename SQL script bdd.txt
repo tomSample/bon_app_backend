@@ -464,7 +464,6 @@ CREATE TABLE IF NOT EXISTS `bdd_bon_appetit`.`ville` (
   `nom` VARCHAR(45) NOT NULL,
   `codePostal` VARCHAR(45) NOT NULL,
   `adresse_id` INT(11) NOT NULL,
-  `code_postal` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_ville_adresse1`
     FOREIGN KEY (`adresse_id`)
