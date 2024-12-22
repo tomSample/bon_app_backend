@@ -1,9 +1,5 @@
 # Bon appétit backend
-Java17
-SpringBoot 3.4.1
-Hibernate 6.6.4.Final
-MariaDB 10.4.32
-IntelliJ IDEA 2024.2.4
+Java17 // SpringBoot 3.4.1 // Hibernate 6.6.4.Final // MariaDB 10.4.32 // IntelliJ IDEA 2024.2.4
 
 1/ Utiliser le script (fichier bdd.txt) pour créer la base de donnée  
 2/ Cloner le repo  
