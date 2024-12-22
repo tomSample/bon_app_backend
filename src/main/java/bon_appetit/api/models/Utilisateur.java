@@ -1,5 +1,6 @@
 package bon_appetit.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,6 +61,7 @@ public class Utilisateur {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
+    @JsonBackReference
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
