@@ -1,0 +1,46 @@
+package bon_appetit.api.models;
+
+import jakarta.persistence.*;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "typecuisine", schema = "bdd_bon_appetit")
+public class Typecuisine {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    private Integer id;
+
+    @Column(name = "nom", length = 45)
+    private String nom;
+
+    @OneToMany(mappedBy = "typeCuisine")
+    private Set<Repartition> repartitions = new LinkedHashSet<>();
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Set<Repartition> getRepartitions() {
+        return repartitions;
+    }
+
+    public void setRepartitions(Set<Repartition> repartitions) {
+        this.repartitions = repartitions;
+    }
+
+}
