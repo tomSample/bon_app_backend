@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 
+//Classe pour empêcher les requêtes circulaires (classe A ref B qui ref A etc)
 @Configuration
 public class JacksonConfig {
 
