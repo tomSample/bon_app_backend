@@ -1,9 +1,17 @@
 package bon_appetit.api.models;
 
-import jakarta.persistence.*;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "adresse", schema = "bdd_bon_appetit")
@@ -36,6 +44,11 @@ public class Adresse {
 
     @OneToMany(mappedBy = "adresse")
     private Set<Ville> villes = new LinkedHashSet<>();
+
+    //ajoutée pour permettre la recherche de restaurant par ville
+    @ManyToOne
+    @JoinColumn(name = "ville_id")
+    private Ville ville;
 
     public Integer getId() {
         return id;

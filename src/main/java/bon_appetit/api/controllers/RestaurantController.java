@@ -36,15 +36,25 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurants);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Integer id) {
+        restaurantService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+//liste des restaurants par type de cuisine
+
     @GetMapping("/filter")
     public ResponseEntity<List<Restaurant>> getRestaurantsByTypeCuisine(@RequestParam Integer typeCuisineId) {
         List<Restaurant> restaurants = restaurantService.findByTypeCuisine(typeCuisineId);
         return ResponseEntity.ok(restaurants);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Integer id) {
-        restaurantService.deleteById(id);
-        return ResponseEntity.noContent().build();
+//liste des restaurants par ville
+
+    @GetMapping("/filterByVille")
+    public ResponseEntity<List<Restaurant>> getRestaurantsByVille(@RequestParam String villeNom) {
+        List<Restaurant> restaurants = restaurantService.findByVilleNom(villeNom);
+        return ResponseEntity.ok(restaurants);
     }
 }

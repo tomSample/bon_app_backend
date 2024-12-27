@@ -31,4 +31,8 @@ public class RestaurantService {
     public List<Restaurant> findByTypeCuisine(Integer typeCuisineId) {
         return restaurantRepository.findByRepartitions_TypeCuisine_Id(typeCuisineId);
     }
+
+    public List<Restaurant> findByVilleNom(String villeNom) {
+        return restaurantRepository.findByVilleNom(villeNom);
+    }
 }
