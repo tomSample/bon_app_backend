@@ -5,6 +5,7 @@ import bon_appetit.api.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/restaurants")
@@ -32,6 +33,12 @@ public class RestaurantController {
     @GetMapping
     public ResponseEntity<Iterable<Restaurant>> getAllRestaurants() {
         Iterable<Restaurant> restaurants = restaurantService.findAll();
+        return ResponseEntity.ok(restaurants);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Restaurant>> getRestaurantsByTypeCuisine(@RequestParam Integer typeCuisineId) {
+        List<Restaurant> restaurants = restaurantService.findByTypeCuisine(typeCuisineId);
         return ResponseEntity.ok(restaurants);
     }
 

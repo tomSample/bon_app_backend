@@ -4,6 +4,7 @@ import bon_appetit.api.models.Restaurant;
 import bon_appetit.api.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class RestaurantService {
@@ -25,5 +26,9 @@ public class RestaurantService {
 
     public void deleteById(Integer id) {
         restaurantRepository.deleteById(id);
+    }
+
+    public List<Restaurant> findByTypeCuisine(Integer typeCuisineId) {
+        return restaurantRepository.findByRepartitions_TypeCuisine_Id(typeCuisineId);
     }
 }
