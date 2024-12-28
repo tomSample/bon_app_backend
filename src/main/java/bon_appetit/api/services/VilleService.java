@@ -1,13 +1,14 @@
 package bon_appetit.api.services;
 
-import bon_appetit.api.models.Ville;
-import bon_appetit.api.repositories.VilleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bon_appetit.api.models.Ville;
+import bon_appetit.api.repositories.VilleRepository;
 
 @Service
 public class VilleService {
@@ -31,5 +32,10 @@ public class VilleService {
 
     public void deleteById(Integer id) {
         villeRepository.deleteById(id);
+    }
+
+//liste des villes dont le nom comment par...
+    public List<String> findByNomStartingWith(String prefix) {
+        return villeRepository.findByNomStartingWith(prefix);
     }
 }
