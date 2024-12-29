@@ -1,9 +1,9 @@
 package bon_appetit.api.controllers;
 
-import bts.sio.demo.entity.Recipe;
-import bts.sio.demo.exception.TokenInvalidException;
-import bts.sio.demo.repository.RecipeRepository;
-import bts.sio.demo.service.JwtTokenProvider;
+import bon_appetit.api.entities.Recipe;
+import bon_appetit.api.exceptions.TokenInvalidException;
+import bon_appetit.api.repositories.RecipeRepository;
+import bon_appetit.api.services.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

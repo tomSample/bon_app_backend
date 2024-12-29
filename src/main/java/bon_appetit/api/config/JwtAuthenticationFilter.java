@@ -1,6 +1,6 @@
 package bon_appetit.api.config;
 
-import bts.sio.demo.service.JwtTokenProvider;
+import bon_appetit.api.services.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

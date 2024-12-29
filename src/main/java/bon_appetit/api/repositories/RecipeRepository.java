@@ -1,6 +1,6 @@
 package bon_appetit.api.repositories;
 
-import bts.sio.demo.entity.Recipe;
+import bon_appetit.api.entities.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
