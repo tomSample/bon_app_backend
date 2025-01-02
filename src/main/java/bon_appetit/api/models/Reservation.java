@@ -1,8 +1,18 @@
 package bon_appetit.api.models;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-import java.time.Instant;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "reservation", schema = "bdd_bon_appetit", indexes = {
@@ -23,12 +33,16 @@ public class Reservation {
     @JoinColumn(name = "utilisateur_id", nullable = false)
     private Utilisateur utilisateur;
 
-    @Column(name = "dateHeure", nullable = false)
-    private Instant dateHeure;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
+    @Column(name = "time", nullable = false)
+    private LocalTime time;
 
     @Column(name = "nbPersonne", nullable = false)
     private Integer nbPersonne;
 
+    // Getters and setters
     public Integer getId() {
         return id;
     }
@@ -53,12 +67,20 @@ public class Reservation {
         this.utilisateur = utilisateur;
     }
 
-    public Instant getDateHeure() {
-        return dateHeure;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateHeure(Instant dateHeure) {
-        this.dateHeure = dateHeure;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public Integer getNbPersonne() {
@@ -68,5 +90,4 @@ public class Reservation {
     public void setNbPersonne(Integer nbPersonne) {
         this.nbPersonne = nbPersonne;
     }
-
 }

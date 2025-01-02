@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-//Classe pour empêcher les requêtes circulaires (classe A ref B qui ref A etc)
 @Configuration
 public class JacksonConfig {
 
@@ -17,6 +17,7 @@ public class JacksonConfig {
         Hibernate5Module hibernateModule = new Hibernate5Module();
         hibernateModule.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
         mapper.registerModule(hibernateModule);
+        mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         return mapper;
     }
