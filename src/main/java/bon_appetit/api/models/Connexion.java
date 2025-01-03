@@ -1,9 +1,15 @@
 package bon_appetit.api.models;
 
-import jakarta.persistence.*;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "connexion", schema = "bdd_bon_appetit")
@@ -16,8 +22,8 @@ public class Connexion {
     @Column(name = "login", nullable = false, length = 45)
     private String login;
 
-    @Column(name = "motDePasse", nullable = false, length = 45)
-    private String motDePasse;
+    @Column(name = "password", nullable = false, length = 45)
+    private String password;
 
     @OneToMany(mappedBy = "connexion")
     private Set<Utilisateur> utilisateurs = new LinkedHashSet<>();
@@ -38,12 +44,12 @@ public class Connexion {
         this.login = login;
     }
 
-    public String getMotDePasse() {
-        return motDePasse;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Set<Utilisateur> getUtilisateurs() {
@@ -53,5 +59,4 @@ public class Connexion {
     public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
         this.utilisateurs = utilisateurs;
     }
-
 }
