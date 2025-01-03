@@ -27,4 +27,8 @@ public class UtilisateurService {
     public void deleteById(Integer id) {
         utilisateurRepository.deleteById(id);
     }
+
+    public String findRoleNameByUtilisateurId(Integer id) {
+        return utilisateurRepository.findRoleNameByUtilisateurId(id);
+    }
 }
