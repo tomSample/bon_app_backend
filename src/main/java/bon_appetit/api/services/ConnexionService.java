@@ -73,4 +73,8 @@ public class ConnexionService {
         }
         return null;
     }
+
+    public boolean existsByLogin(String login) {
+        return connexionRepository.existsByLogin(login);
+    }
 }

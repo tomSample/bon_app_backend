@@ -24,7 +24,12 @@ public class ConnexionController {
     private ConnexionService connexionService;
 
     @PostMapping
+
+    // vérifie si le login existe déjà avant de le créer
     public ResponseEntity<Connexion> createConnexion(@RequestBody Connexion connexion) {
+        if (connexionService.existsByLogin(connexion.getLogin())) {
+            return ResponseEntity.status(409).build(); 
+        }
         Connexion createdConnexion = connexionService.create(connexion);
         return ResponseEntity.ok(createdConnexion);
     }
