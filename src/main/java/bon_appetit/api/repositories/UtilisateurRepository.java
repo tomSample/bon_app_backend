@@ -6,13 +6,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import bon_appetit.api.models.Connexion;
+import bon_appetit.api.models.Role;
 import bon_appetit.api.models.Utilisateur;
 
 
 @Repository
-public interface UtilisateurRepository extends CrudRepository<Utilisateur, Integer>{
+public interface UtilisateurRepository extends CrudRepository<Utilisateur, Integer> {
     Utilisateur findByConnexion(Connexion connexion);
 
-    @Query("SELECT r.nom FROM Role r JOIN r.utilisateurs u WHERE u.id = :id")
-    String findRoleNameByUtilisateurId(@Param("id") Integer id);
+    @Query("SELECT u.role FROM Utilisateur u WHERE u.id = :id")
+    Role findRoleByUtilisateurId(@Param("id") Integer id);
 }

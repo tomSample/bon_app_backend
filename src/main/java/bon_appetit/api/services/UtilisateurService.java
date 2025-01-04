@@ -3,6 +3,7 @@ package bon_appetit.api.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bon_appetit.api.models.Role;
 import bon_appetit.api.models.Utilisateur;
 import bon_appetit.api.repositories.UtilisateurRepository;
 
@@ -28,7 +29,7 @@ public class UtilisateurService {
         utilisateurRepository.deleteById(id);
     }
 
-    public String findRoleNameByUtilisateurId(Integer id) {
-        return utilisateurRepository.findRoleNameByUtilisateurId(id);
+    public Role findRoleByUtilisateurId(Integer id) {
+        return utilisateurRepository.findRoleByUtilisateurId(id);
     }
 }

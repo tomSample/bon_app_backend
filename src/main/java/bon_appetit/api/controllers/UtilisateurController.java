@@ -1,6 +1,7 @@
 package bon_appetit.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import bon_appetit.api.models.Role;
 import bon_appetit.api.models.Utilisateur;
 import bon_appetit.api.services.UtilisateurService;
 
@@ -37,13 +39,13 @@ public class UtilisateurController {
         return ResponseEntity.ok(utilisateur);
     }
 
-    @GetMapping("/{id}/role")
-    public ResponseEntity<String> getRoleNameByUtilisateurId(@PathVariable Integer id) {
-        String roleName = utilisateurService.findRoleNameByUtilisateurId(id);
-        if (roleName == null) {
+    @GetMapping(value = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Role> getRoleByUtilisateurId(@PathVariable Integer id) {
+        Role role = utilisateurService.findRoleByUtilisateurId(id);
+        if (role == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(roleName);
+        return ResponseEntity.ok(role);
     }
 
     @GetMapping
