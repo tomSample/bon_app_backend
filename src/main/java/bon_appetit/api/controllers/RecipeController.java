@@ -7,6 +7,7 @@ import bon_appetit.api.services.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -48,6 +49,49 @@ public class RecipeController {
         validateToken(token); // Valider le token avant d'exécuter l'action
 
         return recipeRepository.findAll();
+    }
+
+    // GET - Récupérer une recette par ID
+    @GetMapping("/{id}")
+    public Recipe getRecipeById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        validateToken(token);
+        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recette non trouvée"));
+    }
+
+    // PUT - Modifier complètement une recette
+    @PutMapping("/{id}")
+    public Recipe updateRecipe(@RequestHeader("Authorization") String token,
+                               @PathVariable Long id,
+                               @RequestBody Recipe updatedRecipe) {
+        validateToken(token);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recette non trouvée"));
+        recipe.setName(updatedRecipe.getName());
+        recipe.setDescription(updatedRecipe.getDescription());
+        return recipeRepository.save(recipe);
+    }
+
+    // PATCH - Modifier partiellement une recette
+    @PatchMapping("/{id}")
+    public Recipe patchRecipe(@RequestHeader("Authorization") String token,
+                              @PathVariable Long id,
+                              @RequestBody Recipe partialUpdate) {
+        validateToken(token);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recette non trouvée"));
+        if (partialUpdate.getName() != null) {
+            recipe.setName(partialUpdate.getName());
+        }
+        if (partialUpdate.getDescription() != null) {
+            recipe.setDescription(partialUpdate.getDescription());
+        }
+        return recipeRepository.save(recipe);
+    }
+
+    // DELETE - Supprimer une recette par ID
+    @DeleteMapping("/{id}")
+    public String deleteRecipe(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        validateToken(token);
+        recipeRepository.deleteById(id);
+        return "Recette supprimée avec succès";
     }
 
     private Claims validateToken(String token) {
