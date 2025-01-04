@@ -1,10 +1,12 @@
 package bon_appetit.api.repositories;
 
-import bon_appetit.api.models.Restaurant;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+
+import bon_appetit.api.models.Restaurant;
 
 @Repository
 public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {

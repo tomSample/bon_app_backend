@@ -39,7 +39,7 @@ public class UtilisateurController {
         return ResponseEntity.ok(utilisateur);
     }
 
-    @GetMapping(value = "/{id}/role", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/role/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Role> getRoleByUtilisateurId(@PathVariable Integer id) {
         Role role = utilisateurService.findRoleByUtilisateurId(id);
         if (role == null) {
