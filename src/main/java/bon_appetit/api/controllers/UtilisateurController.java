@@ -26,6 +26,9 @@ public class UtilisateurController {
 
     @PostMapping
     public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody Utilisateur utilisateur) {
+        if (utilisateur.getConnexion() == null || utilisateur.getConnexion().getId() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
         Utilisateur createdUtilisateur = utilisateurService.create(utilisateur);
         return ResponseEntity.ok(createdUtilisateur);
     }
