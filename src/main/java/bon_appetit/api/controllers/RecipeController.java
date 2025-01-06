@@ -44,7 +44,7 @@ public class RecipeController {
     }
 
     // Endpoint pour récupérer toutes les recettes (protégé par token)
-    @GetMapping("")
+    @GetMapping((""))
     public List<Recipe> getRecipes(@RequestHeader("Authorization") String token) {
         validateToken(token); // Valider le token avant d'exécuter l'action
 
@@ -53,7 +53,7 @@ public class RecipeController {
 
     // GET - Récupérer une recette par ID
     @GetMapping("/{id}")
-    public Recipe getRecipeById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public Recipe getRecipeById(@RequestHeader("Authorization") String token, @PathVariable Integer id) {
         validateToken(token);
         return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recette non trouvée"));
     }
@@ -61,7 +61,7 @@ public class RecipeController {
     // PUT - Modifier complètement une recette
     @PutMapping("/{id}")
     public Recipe updateRecipe(@RequestHeader("Authorization") String token,
-                               @PathVariable Long id,
+                               @PathVariable Integer id,
                                @RequestBody Recipe updatedRecipe) {
         validateToken(token);
         Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recette non trouvée"));
@@ -73,7 +73,7 @@ public class RecipeController {
     // PATCH - Modifier partiellement une recette
     @PatchMapping("/{id}")
     public Recipe patchRecipe(@RequestHeader("Authorization") String token,
-                              @PathVariable Long id,
+                              @PathVariable Integer id,
                               @RequestBody Recipe partialUpdate) {
         validateToken(token);
         Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recette non trouvée"));
@@ -88,7 +88,7 @@ public class RecipeController {
 
     // DELETE - Supprimer une recette par ID
     @DeleteMapping("/{id}")
-    public String deleteRecipe(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public String deleteRecipe(@RequestHeader("Authorization") String token, @PathVariable Integer id) {
         validateToken(token);
         recipeRepository.deleteById(id);
         return "Recette supprimée avec succès";
