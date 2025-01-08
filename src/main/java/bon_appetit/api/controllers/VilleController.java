@@ -46,16 +46,17 @@ public class VilleController {
         return ResponseEntity.ok(villes);
     }
 
+    // récupérer les villes dont le nom commence par...
+    @GetMapping("/search")
+    public ResponseEntity<List<String>> searchVilles(@RequestParam String prefix) {
+        List<String> villes = villeService.findByNameStartingWith(prefix);
+        return ResponseEntity.ok(villes);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVille(@PathVariable Integer id) {
         villeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-//liste des villes dont le nom commence par...
-    @GetMapping("/search")
-    public ResponseEntity<List<String>> searchVilles(@RequestParam String prefix) {
-        List<String> villes = villeService.findByNomStartingWith(prefix);
-        return ResponseEntity.ok(villes);
-    }
 }

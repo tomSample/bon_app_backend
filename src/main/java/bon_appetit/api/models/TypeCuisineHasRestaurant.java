@@ -9,11 +9,11 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "contenu", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_commande_has_article_commande1_idx", columnList = "commande_id"),
-        @Index(name = "fk_commande_has_article_article1_idx", columnList = "article_id")
+@Table(name = "type_cuisine_has_restaurant", schema = "bdd_bon_appetit_2", indexes = {
+        @Index(name = "fk_type_cuisine_has_restaurant_type_cuisine1_idx", columnList = "type_cuisine_id"),
+        @Index(name = "fk_type_cuisine_has_restaurant_restaurant1_idx", columnList = "restaurant_id")
 })
-public class Contenu {
+public class TypeCuisineHasRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,15 +21,12 @@ public class Contenu {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "commande_id", nullable = false)
-    private Commande commande;
+    @JoinColumn(name = "type_cuisine_id", nullable = false)
+    private TypeCuisine typeCuisine;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "article_id", nullable = false)
-    private Article article;
-
-    @Column(name = "quantite", nullable = false)
-    private Integer quantite;
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
 }

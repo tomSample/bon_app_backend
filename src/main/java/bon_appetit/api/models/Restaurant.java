@@ -1,12 +1,18 @@
 package bon_appetit.api.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "restaurant", schema = "bdd_bon_appetit", indexes = {
+@Table(name = "restaurant", schema = "bdd_bon_appetit_2", indexes = {
         @Index(name = "fk_restaurant_utilisateur1_idx", columnList = "utilisateur_id"),
         @Index(name = "fk_restaurant_adresse1_idx", columnList = "adresse_id")
 })
@@ -22,7 +28,7 @@ public class Restaurant {
     @Column(name = "nom", nullable = false, length = 45)
     private String nom;
 
-    @Column(name = "nombreCouvert")
+    @Column(name = "nombre_couvert", nullable = false)
     private Integer nombreCouvert;
 
     @Column(name = "capacite", nullable = false)
@@ -39,17 +45,19 @@ public class Restaurant {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "isOpen", nullable = false)
+    @Column(name = "is_open", nullable = false)
     private Byte isOpen;
 
-    @Column(name = "delaiPreparationCommande")
+    @Column(name = "delai_preparation_commande", nullable = false)
     private Integer delaiPreparationCommande;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "utilisateur_id", nullable = false)
     private Utilisateur utilisateur;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "adresse_id", nullable = false)
     private Adresse adresse;
 
@@ -57,129 +65,12 @@ public class Restaurant {
     private Set<Article> articles = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "restaurant")
-    private Set<Repartition> repartitions = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "restaurant")
     private Set<Reservation> reservations = new LinkedHashSet<>();
 
-    public Integer getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "restaurant")
+    private Set<RestaurantHasVille> restaurantHasVilles = new LinkedHashSet<>();
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getSiret() {
-        return siret;
-    }
-
-    public void setSiret(String siret) {
-        this.siret = siret;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Integer getNombreCouvert() {
-        return nombreCouvert;
-    }
-
-    public void setNombreCouvert(Integer nombreCouvert) {
-        this.nombreCouvert = nombreCouvert;
-    }
-
-    public Integer getCapacite() {
-        return capacite;
-    }
-
-    public void setCapacite(Integer capacite) {
-        this.capacite = capacite;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Byte getIsOpen() {
-        return isOpen;
-    }
-
-    public void setIsOpen(Byte isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public Integer getDelaiPreparationCommande() {
-        return delaiPreparationCommande;
-    }
-
-    public void setDelaiPreparationCommande(Integer delaiPreparationCommande) {
-        this.delaiPreparationCommande = delaiPreparationCommande;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public Adresse getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
-    }
-
-    public Set<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(Set<Article> articles) {
-        this.articles = articles;
-    }
-
-    public Set<Repartition> getRepartitions() {
-        return repartitions;
-    }
-
-    public void setRepartitions(Set<Repartition> repartitions) {
-        this.repartitions = repartitions;
-    }
-
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(Set<Reservation> reservations) {
-        this.reservations = reservations;
-    }
+    @OneToMany(mappedBy = "restaurant")
+    private Set<TypeCuisineHasRestaurant> typeCuisineHasRestaurants = new LinkedHashSet<>();
 
 }

@@ -29,6 +29,7 @@ public class UtilisateurService {
         utilisateurRepository.deleteById(id);
     }
 
+    // trouver le role d'un utilisateur par son id utilisateur
     public Role findRoleByUtilisateurId(Integer id) {
         return utilisateurRepository.findRoleByUtilisateurId(id);
     }

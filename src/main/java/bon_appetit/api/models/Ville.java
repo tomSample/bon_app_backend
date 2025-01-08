@@ -1,9 +1,18 @@
 package bon_appetit.api.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
-@Table(name = "ville", schema = "bdd_bon_appetit", indexes = {
+@Table(name = "ville", schema = "bdd_bon_appetit_2", indexes = {
         @Index(name = "fk_ville_adresse1_idx", columnList = "adresse_id")
 })
 public class Ville {
@@ -15,43 +24,15 @@ public class Ville {
     @Column(name = "nom", nullable = false, length = 45)
     private String nom;
 
-    @Column(name = "codePostal", nullable = false, length = 45)
+    @Column(name = "code_postal", nullable = false, length = 45)
     private String codePostal;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "adresse_id", nullable = false)
     private Adresse adresse;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getCodePostal() {
-        return codePostal;
-    }
-
-    public void setCodePostal(String codePostal) {
-        this.codePostal = codePostal;
-    }
-
-    public Adresse getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
-    }
+    @OneToMany(mappedBy = "ville")
+    private Set<RestaurantHasVille> restaurantHasVilles = new LinkedHashSet<>();
 
 }

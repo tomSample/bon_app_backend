@@ -1,19 +1,10 @@
 package bon_appetit.api.controllers;
 
+import bon_appetit.api.models.Connexion;
+import bon_appetit.api.services.ConnexionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import bon_appetit.api.models.Connexion;
-import bon_appetit.api.models.Utilisateur;
-import bon_appetit.api.services.ConnexionService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/connexions")
@@ -23,26 +14,17 @@ public class ConnexionController {
     @Autowired
     private ConnexionService connexionService;
 
+    // creer une Connexion + vérifie si le login existe déjà avant
     @PostMapping
-
-    // vérifie si le login existe déjà avant de le créer
     public ResponseEntity<Connexion> createConnexion(@RequestBody Connexion connexion) {
         if (connexionService.existsByLogin(connexion.getLogin())) {
-            return ResponseEntity.status(409).build(); 
+            return ResponseEntity.status(409).build();
         }
         Connexion createdConnexion = connexionService.create(connexion);
         return ResponseEntity.ok(createdConnexion);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Utilisateur> login(@RequestBody Connexion connexion) {
-        Utilisateur utilisateur = connexionService.verifyLogin(connexion.getLogin(), connexion.getPassword());
-        if (utilisateur == null) {
-            return ResponseEntity.status(403).build();
-        }
-        return ResponseEntity.ok(utilisateur);
-    }
-
+    // trouver une connexion par son id
     @GetMapping("/{id}")
     public ResponseEntity<Connexion> getConnexion(@PathVariable Integer id) {
         Connexion connexion = connexionService.findById(id);
@@ -52,12 +34,14 @@ public class ConnexionController {
         return ResponseEntity.ok(connexion);
     }
 
+    // trouver toutes les Connexions
     @GetMapping
     public ResponseEntity<Iterable<Connexion>> getAllConnexions() {
         Iterable<Connexion> connexions = connexionService.findAll();
         return ResponseEntity.ok(connexions);
     }
 
+    // supprimer une Connexion par son id
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteConnexion(@PathVariable Integer id) {
         connexionService.deleteById(id);

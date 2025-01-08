@@ -10,8 +10,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "action", schema = "bdd_bon_appetit_2")
-public class Action {
+@Table(name = "type_article", schema = "bdd_bon_appetit_2")
+public class TypeArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -20,7 +20,7 @@ public class Action {
     @Column(name = "nom", nullable = false, length = 45)
     private String nom;
 
-    @OneToMany(mappedBy = "action")
-    private Set<Log> logs = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "typeArticle")
+    private Set<TypeArticleHasArticle> typeArticleHasArticles = new LinkedHashSet<>();
 
 }

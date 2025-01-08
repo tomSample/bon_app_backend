@@ -1,20 +1,16 @@
 package bon_appetit.api.models;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
+@Getter
+@Setter
 @Entity
-@Table(name = "adresse", schema = "bdd_bon_appetit")
+@Table(name = "adresse", schema = "bdd_bon_appetit_2")
 public class Adresse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,82 +40,5 @@ public class Adresse {
 
     @OneToMany(mappedBy = "adresse")
     private Set<Ville> villes = new LinkedHashSet<>();
-
-    //ajoutée pour permettre la recherche de restaurant par ville
-    @ManyToOne
-    @JoinColumn(name = "ville_id")
-    private Ville ville;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getRue() {
-        return rue;
-    }
-
-    public void setRue(String rue) {
-        this.rue = rue;
-    }
-
-    public String getComplement() {
-        return complement;
-    }
-
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Set<Localisation> getLocalisations() {
-        return localisations;
-    }
-
-    public void setLocalisations(Set<Localisation> localisations) {
-        this.localisations = localisations;
-    }
-
-    public Set<Restaurant> getRestaurants() {
-        return restaurants;
-    }
-
-    public void setRestaurants(Set<Restaurant> restaurants) {
-        this.restaurants = restaurants;
-    }
-
-    public Set<Ville> getVilles() {
-        return villes;
-    }
-
-    public void setVilles(Set<Ville> villes) {
-        this.villes = villes;
-    }
 
 }
