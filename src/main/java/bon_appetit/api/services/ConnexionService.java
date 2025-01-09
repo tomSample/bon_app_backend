@@ -22,6 +22,10 @@ public class ConnexionService {
         return connexionRepository.findById(id).orElse(null);
     }
 
+    public Connexion findByLogin(String login) {
+        return connexionRepository.findByLogin(login);
+    }
+
     public Iterable<Connexion> findAll() {
         return connexionRepository.findAll();
     }
