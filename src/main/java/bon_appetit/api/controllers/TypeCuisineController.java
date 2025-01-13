@@ -2,6 +2,7 @@ package bon_appetit.api.controllers;
 
 import java.util.List;
 
+import bon_appetit.api.models.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,26 +14,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import bon_appetit.api.models.Typecuisine;
-import bon_appetit.api.services.TypecuisineService;
+import bon_appetit.api.models.TypeCuisine;
+import bon_appetit.api.services.TypeCuisineService;
 
 @RestController
 @RequestMapping("api/typecuisines")
 @CrossOrigin(origins = "http://localhost:5173") // Remplacez par l'origine de votre choix
-public class TypecuisineController {
+public class TypeCuisineController {
 
     @Autowired
-    private TypecuisineService typecuisineService;
+    private TypeCuisineService typecuisineService;
 
     @PostMapping
-    public ResponseEntity<Typecuisine> createTypecuisine(@RequestBody Typecuisine typeCuisine) {
-        Typecuisine createdTypecuisine = typecuisineService.create(typeCuisine);
-        return ResponseEntity.ok(createdTypecuisine);
+    public ResponseEntity<TypeCuisine> createTypeCuisine(@RequestBody TypeCuisine typeCuisine) {
+        TypeCuisine createdTypeCuisine = typecuisineService.create(typeCuisine);
+        return ResponseEntity.ok(createdTypeCuisine);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Typecuisine> getTypecuisine(@PathVariable Integer id) {
-        Typecuisine typeCuisine = typecuisineService.findById(id);
+    public ResponseEntity<TypeCuisine> getTypeCuisine(@PathVariable Integer id) {
+        TypeCuisine typeCuisine = typecuisineService.findById(id);
         if (typeCuisine == null) {
             return ResponseEntity.notFound().build();
         }
@@ -40,13 +41,13 @@ public class TypecuisineController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Typecuisine>> getAllTypecuisines() {
-        List<Typecuisine> typecuisines = typecuisineService.findAll();
-        return ResponseEntity.ok(typecuisines);
+    public ResponseEntity<Iterable<TypeCuisine>> getAllTypeCuisine() {
+        Iterable<TypeCuisine> typesCuisine = typecuisineService.findAll();
+        return ResponseEntity.ok(typesCuisine);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTypecuisine(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteTypeCuisine(@PathVariable Integer id) {
         typecuisineService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

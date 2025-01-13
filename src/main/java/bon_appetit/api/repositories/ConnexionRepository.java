@@ -7,8 +7,7 @@ import bon_appetit.api.models.Connexion;
 
 @Repository
 public interface ConnexionRepository extends CrudRepository<Connexion, Integer> {
-    
-    Connexion findByLoginAndPassword(String login, String password);
-
     boolean existsByLogin(String login);
+    
+    Connexion findByLogin(String login);
 }

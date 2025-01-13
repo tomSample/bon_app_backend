@@ -42,6 +42,7 @@ public class UtilisateurController {
         return ResponseEntity.ok(utilisateur);
     }
 
+    // trouver le role d'un utilisateur par son id utilisateur
     @GetMapping(value = "/role/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Role> getRoleByUtilisateurId(@PathVariable Integer id) {
         Role role = utilisateurService.findRoleByUtilisateurId(id);

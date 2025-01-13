@@ -54,7 +54,7 @@ public class RestaurantController {
 
     @GetMapping("/filterByVille")
     public ResponseEntity<List<Restaurant>> getRestaurantsByVille(@RequestParam String villeNom) {
-        List<Restaurant> restaurants = restaurantService.findByVilleNom(villeNom);
+        List<Restaurant> restaurants = restaurantService.findByVilleName(villeNom);
         return ResponseEntity.ok(restaurants);
     }
 }

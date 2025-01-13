@@ -28,11 +28,13 @@ public class RestaurantService {
         restaurantRepository.deleteById(id);
     }
 
+    // Liste de restaurant par type de cuisine (id)
     public List<Restaurant> findByTypeCuisine(Integer typeCuisineId) {
-        return restaurantRepository.findByRepartitions_TypeCuisine_Id(typeCuisineId);
+        return restaurantRepository.findByTypeCuisineHasRestaurants_TypeCuisine_Id(typeCuisineId);
     }
 
-    public List<Restaurant> findByVilleNom(String villeNom) {
-        return restaurantRepository.findByVilleNom(villeNom);
+    // Liste de restaurant par ville (nom)
+    public List<Restaurant> findByVilleName(String villeName) {
+        return restaurantRepository.findByVilleName(villeName);
     }
 }

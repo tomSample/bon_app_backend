@@ -1,12 +1,16 @@
 package bon_appetit.api.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "statut", schema = "bdd_bon_appetit")
+@Table(name = "statut", schema = "bdd_bon_appetit_2")
 public class Statut {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,29 +22,5 @@ public class Statut {
 
     @OneToMany(mappedBy = "statut")
     private Set<Etat> etats = new LinkedHashSet<>();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Set<Etat> getEtats() {
-        return etats;
-    }
-
-    public void setEtats(Set<Etat> etats) {
-        this.etats = etats;
-    }
 
 }

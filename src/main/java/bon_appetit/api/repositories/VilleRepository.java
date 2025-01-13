@@ -8,6 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import bon_appetit.api.models.Ville;
 
 public interface VilleRepository extends CrudRepository<Ville, Integer> {
+
+    // trouver une ville dont le nom commence par ...
     @Query("SELECT DISTINCT v.nom FROM Ville v WHERE v.nom LIKE :prefix%")
-    List<String> findByNomStartingWith(String prefix);
+    List<String> findByNameStartingWith(String prefix);
 }

@@ -10,17 +10,17 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "action", schema = "bdd_bon_appetit_2")
-public class Action {
+@Table(name = "type_cuisine", schema = "bdd_bon_appetit_2")
+public class TypeCuisine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "nom", nullable = false, length = 45)
+    @Column(name = "nom", length = 45)
     private String nom;
 
-    @OneToMany(mappedBy = "action")
-    private Set<Log> logs = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "typeCuisine")
+    private Set<TypeCuisineHasRestaurant> typeCuisineHasRestaurants = new LinkedHashSet<>();
 
 }

@@ -6,16 +6,14 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Instant;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "reservation", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_restaurant_has_utilisateur_restaurant1_idx", columnList = "restaurant_id"),
-        @Index(name = "fk_restaurant_has_utilisateur_utilisateur1_idx", columnList = "utilisateur_id")
+@Table(name = "restaurant_has_ville", schema = "bdd_bon_appetit_2", indexes = {
+        @Index(name = "fk_restaurant_has_ville_restaurant1_idx", columnList = "restaurant_id"),
+        @Index(name = "fk_restaurant_has_ville_ville1_idx", columnList = "ville_id")
 })
-public class Reservation {
+public class RestaurantHasVille {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,10 +26,7 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "utilisateur_id", nullable = false)
-    private Utilisateur utilisateur;
-
-    @Column(name = "date_time", nullable = false)
-    private Instant dateTime;
+    @JoinColumn(name = "ville_id", nullable = false)
+    private Ville ville;
 
 }

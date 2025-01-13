@@ -1,0 +1,370 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE SCHEMA IF NOT EXISTS `BDD_BON_APPETIT_2` DEFAULT CHARACTER SET utf8;
+USE `BDD_BON_APPETIT_2`;
+
+DROP TABLE IF EXISTS `action`;
+CREATE TABLE IF NOT EXISTS `action` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `connexion`;
+CREATE TABLE IF NOT EXISTS `connexion` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `login` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  `prenom` VARCHAR(45) NOT NULL,
+  `lattitude` DOUBLE NULL,
+  `longitude` DOUBLE NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `telephone` VARCHAR(45) NOT NULL,
+  `notif_commande_en_cours` TINYINT NULL,
+  `notif_email` TINYINT NULL,
+  `notif_push` TINYINT NULL,
+  `notif_promo` TINYINT NULL,
+  `vehicule_livreur` VARCHAR(45) NULL,
+  `restaurant_favoris` VARCHAR(45) NULL,
+  `role_id` INT NOT NULL,
+  `connexion_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_utilisateur_connexion` (`id`, `connexion_id`),
+  INDEX `fk_utilisateur_role1_idx` (`role_id` ASC),
+  INDEX `fk_utilisateur_connexion1_idx` (`connexion_id` ASC),
+  CONSTRAINT `fk_utilisateur_role1`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `role` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_utilisateur_connexion1`
+    FOREIGN KEY (`connexion_id`)
+    REFERENCES `connexion` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATETIME NOT NULL,
+  `commentaire` LONGTEXT NOT NULL,
+  `utilisateur_id` INT NOT NULL,
+  `action_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_logs_utilisateur_idx` (`utilisateur_id` ASC),
+  INDEX `fk_logs_action1_idx` (`action_id` ASC),
+  CONSTRAINT `fk_logs_utilisateur`
+    FOREIGN KEY (`utilisateur_id`)
+    REFERENCES `utilisateur` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_logs_action1`
+    FOREIGN KEY (`action_id`)
+    REFERENCES `action` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `statut`;
+CREATE TABLE IF NOT EXISTS `statut` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `commande`;
+CREATE TABLE IF NOT EXISTS `commande` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `poids` INT NOT NULL,
+  `sacs` INT NOT NULL,
+  `date` DATETIME NOT NULL,
+  `montant_ttc` FLOAT NOT NULL,
+  `instruction_livraison` LONGTEXT NOT NULL,
+  `utilisateur_id` INT NOT NULL,
+  `utilisateur_connexion_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_commande_utilisateur1_idx` (`utilisateur_id` ASC, `utilisateur_connexion_id` ASC),
+  CONSTRAINT `fk_commande_utilisateur1`
+    FOREIGN KEY (`utilisateur_id`, `utilisateur_connexion_id`)
+    REFERENCES `utilisateur` (`id`, `connexion_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `adresse`;
+CREATE TABLE IF NOT EXISTS `adresse` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `numero` VARCHAR(45) NOT NULL,
+  `rue` VARCHAR(45) NOT NULL,
+  `complement` VARCHAR(45) NULL,
+  `longitude` DOUBLE NULL,
+  `latitude` DOUBLE NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `restaurant`;
+CREATE TABLE IF NOT EXISTS `restaurant` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `siret` VARCHAR(45) NOT NULL,
+  `nom` VARCHAR(45) NOT NULL,
+  `nombre_couvert` INT NOT NULL,
+  `capacite` INT NOT NULL,
+  `telephone` VARCHAR(45) NOT NULL,
+  `photo` MEDIUMTEXT NULL,
+  `description` LONGTEXT NOT NULL,
+  `is_open` TINYINT NOT NULL,
+  `delai_preparation_commande` INT NOT NULL,
+  `utilisateur_id` INT NOT NULL,
+  `adresse_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_restaurant_utilisateur1_idx` (`utilisateur_id` ASC),
+  INDEX `fk_restaurant_adresse1_idx` (`adresse_id` ASC),
+  CONSTRAINT `fk_restaurant_utilisateur1`
+    FOREIGN KEY (`utilisateur_id`)
+    REFERENCES `utilisateur` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_restaurant_adresse1`
+    FOREIGN KEY (`adresse_id`)
+    REFERENCES `adresse` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE IF NOT EXISTS `article` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `prix` DOUBLE NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `image` MEDIUMTEXT NULL,
+  `nom` VARCHAR(45) NOT NULL,
+  `poids` INT NOT NULL,
+  `stock` INT NOT NULL,
+  `duree` INT NULL,
+  `restaurant_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_article_restaurant1_idx` (`restaurant_id` ASC),
+  CONSTRAINT `fk_article_restaurant1`
+    FOREIGN KEY (`restaurant_id`)
+    REFERENCES `restaurant` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `type_article`;
+CREATE TABLE IF NOT EXISTS `type_article` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `type_cuisine`;
+CREATE TABLE IF NOT EXISTS `type_cuisine` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `ville`;
+CREATE TABLE IF NOT EXISTS `ville` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nom` VARCHAR(45) NOT NULL,
+  `code_postal` VARCHAR(45) NOT NULL,
+  `adresse_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_ville_adresse1_idx` (`adresse_id` ASC),
+  CONSTRAINT `fk_ville_adresse1`
+    FOREIGN KEY (`adresse_id`)
+    REFERENCES `adresse` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `avis`;
+CREATE TABLE IF NOT EXISTS `avis` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `note` INT NOT NULL,
+  `commentaire` LONGTEXT NULL,
+  `commande_id` INT NOT NULL,
+  `utilisateur_id` INT NOT NULL,
+  `utilisateur_connexion_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_avis_commande1_idx` (`commande_id` ASC),
+  INDEX `fk_avis_utilisateur1_idx` (`utilisateur_id` ASC, `utilisateur_connexion_id` ASC),
+  CONSTRAINT `fk_avis_commande1`
+    FOREIGN KEY (`commande_id`)
+    REFERENCES `commande` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_avis_utilisateur1`
+    FOREIGN KEY (`utilisateur_id`, `utilisateur_connexion_id`)
+    REFERENCES `utilisateur` (`id`, `connexion_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `etat`;
+CREATE TABLE IF NOT EXISTS `etat` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `statut_id` INT NOT NULL,
+  `commande_id` INT NOT NULL,
+  `commentaire` LONGTEXT NULL,
+  `date` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_statut_has_commande_commande1_idx` (`commande_id` ASC),
+  INDEX `fk_statut_has_commande_statut1_idx` (`statut_id` ASC),
+  CONSTRAINT `fk_statut_has_commande_statut1`
+    FOREIGN KEY (`statut_id`)
+    REFERENCES `statut` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_statut_has_commande_commande1`
+    FOREIGN KEY (`commande_id`)
+    REFERENCES `commande` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `localisation`;
+CREATE TABLE IF NOT EXISTS `localisation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `adresse_id` INT NOT NULL,
+  `utilisateur_id` INT NOT NULL,
+  `default` TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  INDEX `fk_adresse_has_utilisateur_utilisateur1_idx` (`utilisateur_id` ASC),
+  INDEX `fk_adresse_has_utilisateur_adresse1_idx` (`adresse_id` ASC),
+  CONSTRAINT `fk_adresse_has_utilisateur_adresse1`
+    FOREIGN KEY (`adresse_id`)
+    REFERENCES `adresse` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_adresse_has_utilisateur_utilisateur1`
+    FOREIGN KEY (`utilisateur_id`)
+    REFERENCES `utilisateur` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `contenu`;
+CREATE TABLE IF NOT EXISTS `contenu` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `commande_id` INT NOT NULL,
+  `article_id` INT NOT NULL,
+  `quantite` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_commande_has_article_article1_idx` (`article_id` ASC),
+  INDEX `fk_commande_has_article_commande1_idx` (`commande_id` ASC),
+  CONSTRAINT `fk_commande_has_article_commande1`
+    FOREIGN KEY (`commande_id`)
+    REFERENCES `commande` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_commande_has_article_article1`
+    FOREIGN KEY (`article_id`)
+    REFERENCES `article` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `reservation`;
+CREATE TABLE IF NOT EXISTS `reservation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `restaurant_id` INT NOT NULL,
+  `utilisateur_id` INT NOT NULL,
+  `date_time` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_restaurant_has_utilisateur_utilisateur1_idx` (`utilisateur_id` ASC),
+  INDEX `fk_restaurant_has_utilisateur_restaurant1_idx` (`restaurant_id` ASC),
+  CONSTRAINT `fk_restaurant_has_utilisateur_restaurant1`
+    FOREIGN KEY (`restaurant_id`)
+    REFERENCES `restaurant` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_restaurant_has_utilisateur_utilisateur1`
+    FOREIGN KEY (`utilisateur_id`)
+    REFERENCES `utilisateur` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `restaurant_has_ville`;
+CREATE TABLE IF NOT EXISTS `restaurant_has_ville` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `restaurant_id` INT NOT NULL,
+  `ville_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_restaurant_has_ville_ville1_idx` (`ville_id` ASC),
+  INDEX `fk_restaurant_has_ville_restaurant1_idx` (`restaurant_id` ASC),
+  CONSTRAINT `fk_restaurant_has_ville_restaurant1`
+    FOREIGN KEY (`restaurant_id`)
+    REFERENCES `restaurant` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_restaurant_has_ville_ville1`
+    FOREIGN KEY (`ville_id`)
+    REFERENCES `ville` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `type_article_has_article`;
+CREATE TABLE IF NOT EXISTS `type_article_has_article` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type_article_id` INT NOT NULL,
+  `article_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_type_article_has_article_article1_idx` (`article_id` ASC),
+  INDEX `fk_type_article_has_article_type_article1_idx` (`type_article_id` ASC),
+  CONSTRAINT `fk_type_article_has_article_type_article1`
+    FOREIGN KEY (`type_article_id`)
+    REFERENCES `type_article` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_type_article_has_article_article1`
+    FOREIGN KEY (`article_id`)
+    REFERENCES `article` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `type_cuisine_has_restaurant`;
+CREATE TABLE IF NOT EXISTS `type_cuisine_has_restaurant` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type_cuisine_id` INT NOT NULL,
+  `restaurant_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_type_cuisine_has_restaurant_restaurant1_idx` (`restaurant_id` ASC),
+  INDEX `fk_type_cuisine_has_restaurant_type_cuisine1_idx` (`type_cuisine_id` ASC),
+  CONSTRAINT `fk_type_cuisine_has_restaurant_type_cuisine1`
+    FOREIGN KEY (`type_cuisine_id`)
+    REFERENCES `type_cuisine` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_type_cuisine_has_restaurant_restaurant1`
+    FOREIGN KEY (`restaurant_id`)
+    REFERENCES `restaurant` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
