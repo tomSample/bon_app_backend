@@ -11,10 +11,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "reservation", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_restaurant_has_utilisateur_restaurant1_idx", columnList = "restaurant_id"),
-        @Index(name = "fk_restaurant_has_utilisateur_utilisateur1_idx", columnList = "utilisateur_id")
-})
+@Table(name = "reservation")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

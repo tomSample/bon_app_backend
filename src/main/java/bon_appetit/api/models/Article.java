@@ -12,9 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "article", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_article_restaurant1_idx", columnList = "restaurant_id")
-})
+@Table(name = "article")
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

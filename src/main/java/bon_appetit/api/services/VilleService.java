@@ -1,14 +1,11 @@
 package bon_appetit.api.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-import bon_appetit.api.models.Utilisateur;
+import bon_appetit.api.models.Ville;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bon_appetit.api.models.Ville;
 import bon_appetit.api.repositories.VilleRepository;
 
 @Service

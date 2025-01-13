@@ -9,10 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "contenu", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_commande_has_article_commande1_idx", columnList = "commande_id"),
-        @Index(name = "fk_commande_has_article_article1_idx", columnList = "article_id")
-})
+@Table(name = "contenu")
 public class Contenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
