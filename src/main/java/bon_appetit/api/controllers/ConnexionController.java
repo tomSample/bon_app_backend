@@ -1,5 +1,8 @@
 package bon_appetit.api.controllers;
 
+import bon_appetit.api.models.Connexion;
+import bon_appetit.api.models.JwtResponse;
+import bon_appetit.api.models.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import bon_appetit.api.models.Connexion;
-import bon_appetit.api.models.JwtResponse;
-import bon_appetit.api.models.Utilisateur;
 import bon_appetit.api.services.ConnexionService;
 import bon_appetit.api.services.UserDetailsService;
 import bon_appetit.api.util.JwtTokenUtil;

@@ -13,9 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "commande", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_commande_utilisateur1_idx", columnList = "utilisateur_id, utilisateur_connexion_id")
-})
+@Table(name = "commande")
 public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

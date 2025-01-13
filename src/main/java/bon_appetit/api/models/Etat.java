@@ -11,10 +11,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "etat", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_statut_has_commande_statut1_idx", columnList = "statut_id"),
-        @Index(name = "fk_statut_has_commande_commande1_idx", columnList = "commande_id")
-})
+@Table(name = "etat")
 public class Etat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
