@@ -19,7 +19,7 @@ public class Categorie {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "typeArticle_id", nullable = false)
-    private Typearticle typeArticle;
+    private TypeArticle typeArticle;
 
     public Integer getId() {
         return id;
@@ -37,11 +37,11 @@ public class Categorie {
         this.article = article;
     }
 
-    public Typearticle getTypeArticle() {
+    public TypeArticle getTypeArticle() {
         return typeArticle;
     }
 
-    public void setTypeArticle(Typearticle typeArticle) {
+    public void setTypeArticle(TypeArticle typeArticle) {
         this.typeArticle = typeArticle;
     }
 
