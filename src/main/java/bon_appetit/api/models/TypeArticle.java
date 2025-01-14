@@ -1,10 +1,14 @@
 package bon_appetit.api.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "typeArticle", schema = "bdd_bon_appetit")
 public class TypeArticle {
@@ -18,29 +22,4 @@ public class TypeArticle {
 
     @OneToMany(mappedBy = "typeArticle")
     private Set<Categorie> categories = new LinkedHashSet<>();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Set<Categorie> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Categorie> categories) {
-        this.categories = categories;
-    }
-
 }
