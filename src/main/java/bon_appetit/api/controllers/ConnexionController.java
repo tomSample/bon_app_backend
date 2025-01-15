@@ -42,23 +42,23 @@ public class ConnexionController {
         return ResponseEntity.ok(createdConnexion);
     }
 
-    @PostMapping("/check")
-    public ResponseEntity<?> checkConnexion(@RequestBody Connexion connexion) {
-        Connexion existingConnexion = connexionService.findByLogin(connexion.getLogin());
-        if (existingConnexion == null) {
-            return ResponseEntity.status(401).body("Login incorrect");
-        }
-
-        if (!connexion.getPassword().equals(existingConnexion.getPassword())) {
-            return ResponseEntity.status(401).body("Mot de passe incorrect");
-        }
-
-        Utilisateur utilisateur = userDetailsService.loadUserByUsername(connexion.getLogin());
-        final String token = jwtTokenUtil.generateToken(utilisateur);
-        final String role = utilisateur.getRole().getNom();
-
-        return ResponseEntity.ok(new JwtResponse(token, role));
+@PostMapping("/check")
+public ResponseEntity<?> checkConnexion(@RequestBody Connexion connexion) {
+    Connexion existingConnexion = connexionService.findByLogin(connexion.getLogin());
+    if (existingConnexion == null) {
+        return ResponseEntity.status(401).body("Login incorrect");
     }
+
+    if (!connexion.getPassword().equals(existingConnexion.getPassword())) {
+        return ResponseEntity.status(401).body("Mot de passe incorrect");
+    }
+
+    Utilisateur utilisateur = userDetailsService.loadUserByUsername(connexion.getLogin());
+    final String role = utilisateur.getRole().getNom();
+    final Integer userId = utilisateur.getId();
+
+    return ResponseEntity.ok(new JwtResponse(null, role, userId));
+}
 
     // trouver une connexion par son id
     @GetMapping("/{id}")
