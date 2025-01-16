@@ -1,20 +1,11 @@
 package bon_appetit.api.controllers;
 
+import bon_appetit.api.models.*;
+import bon_appetit.api.services.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import bon_appetit.api.models.Role;
-import bon_appetit.api.models.Utilisateur;
-import bon_appetit.api.services.UtilisateurService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/utilisateurs")
@@ -25,12 +16,13 @@ public class UtilisateurController {
     private UtilisateurService utilisateurService;
 
     @PostMapping
-    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody Utilisateur utilisateur) {
-        if (utilisateur.getConnexion() == null || utilisateur.getConnexion().getId() == null) {
-            return ResponseEntity.badRequest().body(null);
+    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO) {
+        try {
+            Utilisateur createdUtilisateur = utilisateurService.createUtilisateur(utilisateurDTO);
+            return ResponseEntity.ok(createdUtilisateur);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(null);
         }
-        Utilisateur createdUtilisateur = utilisateurService.create(utilisateur);
-        return ResponseEntity.ok(createdUtilisateur);
     }
 
     @GetMapping("/{id}")
@@ -42,7 +34,6 @@ public class UtilisateurController {
         return ResponseEntity.ok(utilisateur);
     }
 
-    // trouver le role d'un utilisateur par son id utilisateur
     @GetMapping(value = "/role/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Role> getRoleByUtilisateurId(@PathVariable Integer id) {
         Role role = utilisateurService.findRoleByUtilisateurId(id);

@@ -1,4 +1,9 @@
 package bon_appetit.api.repositories;
 
-public interface LocalisationRepository extends org.springframework.data.jpa.repository.JpaRepository<bon_appetit.api.models.Localisation, java.lang.Integer> {
-  }
+import bon_appetit.api.models.Localisation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface LocalisationRepository extends JpaRepository<Localisation, Integer> {
+}

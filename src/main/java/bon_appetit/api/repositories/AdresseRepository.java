@@ -1,4 +1,9 @@
 package bon_appetit.api.repositories;
 
-public interface AdresseRepository extends org.springframework.data.jpa.repository.JpaRepository<bon_appetit.api.models.Adresse, java.lang.Integer> {
+import bon_appetit.api.models.Adresse;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AdresseRepository extends JpaRepository<Adresse, Integer> {
   }

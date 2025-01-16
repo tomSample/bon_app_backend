@@ -31,7 +31,11 @@ public class Localisation {
     private Utilisateur utilisateur;
 
     @ColumnDefault("1")
-    @Column(name = "`default`", nullable = false)
-    private Byte defaultField;
+    @Column(name = "adresse_par_defaut", nullable = false)
+    private Byte adresseParDefaut;
+
+    @ColumnDefault("0")
+    @Column(name = "adresse_travail", nullable = false)
+    private Byte adresseTravail;
 
 }

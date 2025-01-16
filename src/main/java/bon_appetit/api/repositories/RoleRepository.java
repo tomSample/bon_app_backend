@@ -1,4 +1,9 @@
 package bon_appetit.api.repositories;
 
-public interface RoleRepository extends org.springframework.data.jpa.repository.JpaRepository<bon_appetit.api.models.Role, java.lang.Integer> {
-  }
+import bon_appetit.api.models.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+}
