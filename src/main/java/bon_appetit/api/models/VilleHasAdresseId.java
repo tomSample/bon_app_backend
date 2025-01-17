@@ -14,11 +14,20 @@ import java.util.Objects;
 @Embeddable
 public class VilleHasAdresseId implements Serializable {
     private static final long serialVersionUID = -1782348476095974705L;
+
     @Column(name = "ville_id", nullable = false)
     private Integer villeId;
 
     @Column(name = "adresse_id", nullable = false)
     private Integer adresseId;
+
+    public VilleHasAdresseId() {
+    }
+
+    public VilleHasAdresseId(Integer villeId, Integer adresseId) {
+        this.villeId = villeId;
+        this.adresseId = adresseId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -33,5 +42,4 @@ public class VilleHasAdresseId implements Serializable {
     public int hashCode() {
         return Objects.hash(adresseId, villeId);
     }
-
 }

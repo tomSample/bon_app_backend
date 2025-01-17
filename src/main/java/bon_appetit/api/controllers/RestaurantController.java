@@ -1,9 +1,9 @@
 package bon_appetit.api.controllers;
 
+import bon_appetit.api.models.Adresse;
 import bon_appetit.api.models.Restaurant;
-import bon_appetit.api.models.TypeCuisineHasRestaurant;
+import bon_appetit.api.models.Ville;
 import bon_appetit.api.services.RestaurantService;
-import bon_appetit.api.services.TypeCuisineHasRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,19 +18,21 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @Autowired
-    private TypeCuisineHasRestaurantService typeCuisineHasRestaurantService;
+    @PostMapping("/ville")
+    public ResponseEntity<Ville> createVille(@RequestBody Ville ville) {
+        Ville savedVille = restaurantService.saveVille(ville);
+        return ResponseEntity.ok(savedVille);
+    }
+
+    @PostMapping("/adresse")
+    public ResponseEntity<Adresse> createAdresse(@RequestBody Adresse adresse) {
+        Adresse savedAdresse = restaurantService.saveAdresse(adresse);
+        return ResponseEntity.ok(savedAdresse);
+    }
 
     @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
         Restaurant createdRestaurant = restaurantService.createRestaurantWithDetails(restaurant);
-
-        // Create TypeCuisineHasRestaurant entries
-        for (TypeCuisineHasRestaurant typeCuisineHasRestaurant : restaurant.getTypeCuisineHasRestaurants()) {
-            typeCuisineHasRestaurant.setRestaurant(createdRestaurant);
-            typeCuisineHasRestaurantService.create(typeCuisineHasRestaurant);
-        }
-
         return ResponseEntity.ok(createdRestaurant);
     }
 
@@ -50,7 +52,7 @@ public class RestaurantController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteRestaurant(@PathVariable Integer id) {
         restaurantService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -62,8 +64,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/filterByVille")
-    public ResponseEntity<List<Restaurant>> getRestaurantsByVille(@RequestParam String villeNom) {
-        List<Restaurant> restaurants = restaurantService.findByVilleName(villeNom);
+    public ResponseEntity<List<Restaurant>> getRestaurantsByVille(@RequestParam String villeName) {
+        List<Restaurant> restaurants = restaurantService.findByVilleName(villeName);
         return ResponseEntity.ok(restaurants);
     }
 }
