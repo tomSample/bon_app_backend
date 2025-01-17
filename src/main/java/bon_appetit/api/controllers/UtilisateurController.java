@@ -7,6 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/utilisateurs")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -16,12 +19,16 @@ public class UtilisateurController {
     private UtilisateurService utilisateurService;
 
     @PostMapping
-    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO) {
+    public ResponseEntity<?> createUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO) {
         try {
             Utilisateur createdUtilisateur = utilisateurService.createUtilisateur(utilisateurDTO);
-            return ResponseEntity.ok(createdUtilisateur);
+            // Créer une réponse contenant l'utilisateur, son ID et son rôle
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", createdUtilisateur.getId());
+            response.put("role", createdUtilisateur.getRole().getNom());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body("Erreur lors de la création de l'utilisateur");
         }
     }
 

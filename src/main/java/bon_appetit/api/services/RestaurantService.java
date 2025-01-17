@@ -1,9 +1,14 @@
 package bon_appetit.api.services;
 
+import bon_appetit.api.models.Adresse;
 import bon_appetit.api.models.Restaurant;
+import bon_appetit.api.models.Ville;
+import bon_appetit.api.repositories.AdresseRepository;
 import bon_appetit.api.repositories.RestaurantRepository;
+import bon_appetit.api.repositories.VilleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -12,7 +17,38 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public Restaurant create(Restaurant restaurant) {
+    @Autowired
+    private AdresseRepository adresseRepository;
+
+    @Autowired
+    private VilleRepository villeRepository;
+
+    public Restaurant createRestaurantWithDetails(Restaurant restaurant) {
+        // Create or find the address
+        Adresse adresse = restaurant.getAdresse();
+        if (adresse.getId() == null) {
+            adresse = adresseRepository.save(adresse);
+        } else {
+            adresse = adresseRepository.findById(adresse.getId()).orElse(adresse);
+        }
+
+        // Create or find the city
+        Ville ville = adresse.getVille();
+        if (ville.getId() == null) {
+            ville.setAdresse(adresse); // Set the address to the city
+            ville = villeRepository.save(ville);
+        } else {
+            ville = villeRepository.findById(ville.getId()).orElse(ville);
+        }
+
+        // Associate the city with the address
+        adresse.setVille(ville);
+        adresse = adresseRepository.save(adresse);
+
+        // Set the address to the restaurant
+        restaurant.setAdresse(adresse);
+
+        // Save the restaurant
         return restaurantRepository.save(restaurant);
     }
 
@@ -28,12 +64,10 @@ public class RestaurantService {
         restaurantRepository.deleteById(id);
     }
 
-    // Liste de restaurant par type de cuisine (id)
     public List<Restaurant> findByTypeCuisine(Integer typeCuisineId) {
         return restaurantRepository.findByTypeCuisineHasRestaurants_TypeCuisine_Id(typeCuisineId);
     }
 
-    // Liste de restaurant par ville (nom)
     public List<Restaurant> findByVilleName(String villeName) {
         return restaurantRepository.findByVilleName(villeName);
     }

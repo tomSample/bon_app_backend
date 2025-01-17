@@ -5,6 +5,9 @@ import bon_appetit.api.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ReservationService {
 
@@ -19,8 +22,10 @@ public class ReservationService {
         return reservationRepository.findById(id).orElse(null);
     }
 
-    public Iterable<Reservation> findAll() {
-        return reservationRepository.findAll();
+    public List<Reservation> findAll() {
+        List<Reservation> reservations = new ArrayList<>();
+        reservationRepository.findAll().forEach(reservations::add);
+        return reservations;
     }
 
     public void deleteById(Integer id) {

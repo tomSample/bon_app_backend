@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/reservations")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -30,13 +32,13 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Reservation>> getAllReservations() {
-        Iterable<Reservation> reservations = reservationService.findAll();
+    public ResponseEntity<List<Reservation>> getAllReservations() {
+        List<Reservation> reservations = reservationService.findAll();
         return ResponseEntity.ok(reservations);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable Integer id) {
+    public ResponseEntity<Reservation> deleteReservation(@PathVariable Integer id) {
         reservationService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

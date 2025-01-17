@@ -46,7 +46,7 @@ public class Restaurant {
     private String description;
 
     @Column(name = "is_open", nullable = false)
-    private Byte isOpen;
+    private Boolean isOpen;
 
     @Column(name = "delai_preparation_commande", nullable = false)
     private Integer delaiPreparationCommande;
