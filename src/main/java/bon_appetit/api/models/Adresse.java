@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "adresse", schema = "bdd_bon_appetit_2")
+@Table(name = "adresse")
 public class Adresse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,10 @@ public class Adresse {
     @OneToMany(mappedBy = "adresse")
     private Set<Restaurant> restaurants = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "adresse")
+    @ManyToMany
+    @JoinTable(name = "ville_has_adresse",
+            joinColumns = @JoinColumn(name = "adresse_id"),
+            inverseJoinColumns = @JoinColumn(name = "ville_id"))
     private Set<Ville> villes = new LinkedHashSet<>();
 
 }

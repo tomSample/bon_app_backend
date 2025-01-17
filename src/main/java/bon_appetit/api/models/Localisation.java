@@ -10,10 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "localisation", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_adresse_has_utilisateur_adresse1_idx", columnList = "adresse_id"),
-        @Index(name = "fk_adresse_has_utilisateur_utilisateur1_idx", columnList = "utilisateur_id")
-})
+@Table(name = "localisation")
 public class Localisation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +32,7 @@ public class Localisation {
     private Byte adresseParDefaut;
 
     @ColumnDefault("0")
-    @Column(name = "adresse_travail", nullable = false)
+    @Column(name = "adresse_travail")
     private Byte adresseTravail;
 
 }

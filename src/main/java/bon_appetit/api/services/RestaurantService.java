@@ -1,10 +1,6 @@
 package bon_appetit.api.services;
 
-import bon_appetit.api.models.Adresse;
-import bon_appetit.api.models.Restaurant;
-import bon_appetit.api.models.Ville;
-import bon_appetit.api.models.VilleHasAdresse;
-import bon_appetit.api.models.VilleHasAdresseId;
+import bon_appetit.api.models.*;
 import bon_appetit.api.repositories.AdresseRepository;
 import bon_appetit.api.repositories.RestaurantRepository;
 import bon_appetit.api.repositories.VilleHasAdresseRepository;

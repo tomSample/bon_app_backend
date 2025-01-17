@@ -1,15 +1,13 @@
 package bon_appetit.api.repositories;
 
+import bon_appetit.api.models.Ville;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-
-import bon_appetit.api.models.Ville;
-
+@Repository
 public interface VilleRepository extends CrudRepository<Ville, Integer> {
-
-    // trouver une ville dont le nom commence par ...
-    @Query("SELECT DISTINCT v.nom FROM Ville v WHERE v.nom LIKE :prefix%")
-    List<String> findByNameStartingWith(String prefix);
+    List<Ville> findByNomStartingWith(String prefix);
+    List<Ville> findByCodePostalStartingWith(String prefix);
 }

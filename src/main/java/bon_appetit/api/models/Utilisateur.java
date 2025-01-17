@@ -12,12 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "utilisateur", schema = "bdd_bon_appetit_2", indexes = {
-        @Index(name = "fk_utilisateur_role1_idx", columnList = "role_id"),
-        @Index(name = "fk_utilisateur_connexion1_idx", columnList = "connexion_id")
-}, uniqueConstraints = {
-        @UniqueConstraint(name = "unique_utilisateur_connexion", columnNames = {"id", "connexion_id"})
-})
+@Table(name = "utilisateur")
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

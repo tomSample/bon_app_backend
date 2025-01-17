@@ -1,15 +1,11 @@
 package bon_appetit.api.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import bon_appetit.api.models.Utilisateur;
+import bon_appetit.api.models.Ville;
+import bon_appetit.api.repositories.VilleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bon_appetit.api.models.Ville;
-import bon_appetit.api.repositories.VilleRepository;
+import java.util.List;
 
 @Service
 public class VilleService {
@@ -33,8 +29,11 @@ public class VilleService {
         villeRepository.deleteById(id);
     }
 
-    // trouver une ville dont le nom commence par ...
-    public List<String> findByNameStartingWith(String prefix) {
-        return villeRepository.findByNameStartingWith(prefix);
+    public List<Ville> findByNomStartingWith(String prefix) {
+        return villeRepository.findByNomStartingWith(prefix);
+    }
+
+    public List<Ville> findByCodePostalStartingWith(String prefix) {
+        return villeRepository.findByCodePostalStartingWith(prefix);
     }
 }

@@ -1,13 +1,13 @@
 package bon_appetit.api.controllers;
 
+import bon_appetit.api.models.Role;
+import bon_appetit.api.models.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import bon_appetit.api.models.Role;
-import bon_appetit.api.models.Utilisateur;
 import bon_appetit.api.services.JwtTokenProvider;
 import bon_appetit.api.services.UtilisateurService;
 

@@ -33,7 +33,7 @@ public class SecurityConfig {
                 }))
                 // Autoriser les requêtes sans authentification pour les URL suivantes
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/connexions/check", "/api/signup", "/api/generate-token", "api/utilisateurs","/api/typecuisines", "/api/restaurants").permitAll()
+                        .requestMatchers("/api/villes/**","/api/geo/**","/api/connexions/check", "/api/signup", "/api/generate-token", "api/utilisateurs","/api/typecuisines", "/api/restaurants").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Ajouter le filtre JWT

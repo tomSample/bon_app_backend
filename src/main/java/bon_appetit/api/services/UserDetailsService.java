@@ -1,11 +1,11 @@
 package bon_appetit.api.services;
 
+import bon_appetit.api.models.Connexion;
+import bon_appetit.api.models.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import bon_appetit.api.models.Connexion;
-import bon_appetit.api.models.Utilisateur;
 import bon_appetit.api.repositories.ConnexionRepository;
 import bon_appetit.api.repositories.UtilisateurRepository;
 

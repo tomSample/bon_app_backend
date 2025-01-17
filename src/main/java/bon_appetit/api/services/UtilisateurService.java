@@ -1,15 +1,9 @@
 package bon_appetit.api.services;
 
+import bon_appetit.api.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bon_appetit.api.models.Adresse;
-import bon_appetit.api.models.Connexion;
-import bon_appetit.api.models.Localisation;
-import bon_appetit.api.models.Role;
-import bon_appetit.api.models.Utilisateur;
-import bon_appetit.api.models.UtilisateurDTO;
-import bon_appetit.api.models.Ville;
 import bon_appetit.api.repositories.AdresseRepository;
 import bon_appetit.api.repositories.ConnexionRepository;
 import bon_appetit.api.repositories.LocalisationRepository;
@@ -70,15 +64,15 @@ public class UtilisateurService {
         Ville ville = new Ville();
         ville.setNom(utilisateurDTO.getVille());
         ville.setCodePostal(utilisateurDTO.getCodePostal());
-        ville.setAdresse(savedAdresse);
+        ville.getAdresses().add(savedAdresse); // Ajouter l'adresse à la ville
         Ville savedVille = villeRepository.save(ville);
 
         // Lier l'adresse à l'utilisateur avec le type d'adresse par défaut
         Localisation localisation = new Localisation();
         localisation.setAdresse(savedAdresse);
         localisation.setUtilisateur(savedUtilisateur);
-        localisation.setAdresseParDefaut((byte) 1);
-        localisation.setAdresseTravail((byte) 0);
+        localisation.setAdresseParDefaut((byte) 1); // Utiliser (byte) 1
+        localisation.setAdresseTravail((byte) 0); // Utiliser (byte) 0
         localisationRepository.save(localisation);
 
         return savedUtilisateur;

@@ -2,11 +2,11 @@ package bon_appetit.api.util;
 
 import java.util.Date;
 
+import bon_appetit.api.models.Utilisateur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import bon_appetit.api.models.Utilisateur;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
