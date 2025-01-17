@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // .requestMatchers("/api/**").permitAll() // Désactivé pour éviter que tout ne soit accessible par défaut
                         .requestMatchers("/api/generate-token").permitAll()
-                        .requestMatchers("/api/recipes/**").authenticated() // Pour protéger ce endpoint
+                        .requestMatchers("/api/articles/**").authenticated() // Pour protéger ce endpoint
                         .anyRequest().authenticated()
                 )
 
