@@ -20,16 +20,7 @@ public class UtilisateurController {
 
     @PostMapping
     public ResponseEntity<?> createUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO) {
-        try {
-            Utilisateur createdUtilisateur = utilisateurService.createUtilisateur(utilisateurDTO);
-            // Créer une réponse contenant l'utilisateur, son ID et son rôle
-            Map<String, Object> response = new HashMap<>();
-            response.put("id", createdUtilisateur.getId());
-            response.put("role", createdUtilisateur.getRole().getNom());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body("Erreur lors de la création de l'utilisateur");
-        }
+        return utilisateurService.createUtilisateur(utilisateurDTO);
     }
 
     @GetMapping("/{id}")

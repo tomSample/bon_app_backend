@@ -5,10 +5,12 @@ import bon_appetit.api.models.Restaurant;
 import bon_appetit.api.models.Ville;
 import bon_appetit.api.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/restaurants")
@@ -18,22 +20,10 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @PostMapping("/ville")
-    public ResponseEntity<Ville> createVille(@RequestBody Ville ville) {
-        Ville savedVille = restaurantService.saveVille(ville);
-        return ResponseEntity.ok(savedVille);
-    }
-
-    @PostMapping("/adresse")
-    public ResponseEntity<Adresse> createAdresse(@RequestBody Adresse adresse) {
-        Adresse savedAdresse = restaurantService.saveAdresse(adresse);
-        return ResponseEntity.ok(savedAdresse);
-    }
-
     @PostMapping
-    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
-        Restaurant createdRestaurant = restaurantService.createRestaurantWithDetails(restaurant);
-        return ResponseEntity.ok(createdRestaurant);
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Map<String, Object> restaurantData) {
+        Restaurant createdRestaurant = restaurantService.createRestaurantWithDetails(restaurantData);
+        return new ResponseEntity<>(createdRestaurant, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
