@@ -12,18 +12,18 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "localisation")
 public class Localisation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @EmbeddedId
+    private LocalisationId id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @MapsId("adresseId")
     @JoinColumn(name = "adresse_id", nullable = false)
     private Adresse adresse;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @MapsId("utilisateurId")
     @JoinColumn(name = "utilisateur_id", nullable = false)
     private Utilisateur utilisateur;
 
@@ -34,5 +34,4 @@ public class Localisation {
     @ColumnDefault("0")
     @Column(name = "adresse_travail")
     private Byte adresseTravail;
-
 }
