@@ -1,17 +1,23 @@
 package bon_appetit.api.services;
 
-import bon_appetit.api.models.*;
-import bon_appetit.api.repositories.AdresseRepository;
-import bon_appetit.api.repositories.RestaurantRepository;
-import bon_appetit.api.repositories.VilleHasAdresseRepository;
-import bon_appetit.api.repositories.VilleRepository;
-import bon_appetit.api.repositories.UtilisateurRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bon_appetit.api.models.Adresse;
+import bon_appetit.api.models.Restaurant;
+import bon_appetit.api.models.Utilisateur;
+import bon_appetit.api.models.Ville;
+import bon_appetit.api.models.VilleHasAdresse;
+import bon_appetit.api.models.VilleHasAdresseId;
+import bon_appetit.api.repositories.AdresseRepository;
+import bon_appetit.api.repositories.RestaurantRepository;
+import bon_appetit.api.repositories.UtilisateurRepository;
+import bon_appetit.api.repositories.VilleHasAdresseRepository;
+import bon_appetit.api.repositories.VilleRepository;
 
 @Service
 public class RestaurantService {
@@ -135,7 +141,12 @@ public class RestaurantService {
         return restaurantRepository.findByTypeCuisineHasRestaurants_TypeCuisine_Id(typeCuisineId);
     }
 
+    public List<Restaurant> findRestaurantsByUtilisateurId(Integer utilisateurId) {
+    return restaurantRepository.findByUtilisateurId(utilisateurId);
+}
+
     public List<Restaurant> findByVilleName(String villeName) {
         return restaurantRepository.findByVilleName(villeName);
     }
+    
 }

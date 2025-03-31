@@ -1,16 +1,23 @@
 package bon_appetit.api.controllers;
 
-import bon_appetit.api.models.Adresse;
-import bon_appetit.api.models.Restaurant;
-import bon_appetit.api.models.Ville;
-import bon_appetit.api.services.RestaurantService;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import bon_appetit.api.models.Restaurant;
+import bon_appetit.api.services.RestaurantService;
 
 @RestController
 @RequestMapping("api/restaurants")
@@ -38,6 +45,12 @@ public class RestaurantController {
     @GetMapping
     public ResponseEntity<Iterable<Restaurant>> getAllRestaurants() {
         Iterable<Restaurant> restaurants = restaurantService.findAll();
+        return ResponseEntity.ok(restaurants);
+    }
+
+    @GetMapping("/by-user/{userId}")
+    public ResponseEntity<List<Restaurant>> getRestaurantsByUtilisateurId(@PathVariable Integer userId) {
+        List<Restaurant> restaurants = restaurantService.findRestaurantsByUtilisateurId(userId);
         return ResponseEntity.ok(restaurants);
     }
 
