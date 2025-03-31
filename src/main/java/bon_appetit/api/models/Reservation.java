@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "reservation")
-@IdClass(ReservationId.class) // Indique que cette entité utilise une clé composite
+@IdClass(ReservationId.class) // utilise une clé composite
 public class Reservation {
 
     @Id

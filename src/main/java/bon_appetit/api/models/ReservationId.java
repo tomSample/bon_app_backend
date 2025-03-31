@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-// clé primaire composite
+// clé primaire composite de Reservation.java
 public class ReservationId implements Serializable {
 
     private Integer restaurant;
