@@ -53,4 +53,13 @@ public class Article {
     @OneToMany(mappedBy = "article")
     private Set<TypeArticleHasArticle> typeArticleHasArticles = new LinkedHashSet<>();
 
+    // Auto-jointure pour les recommandations
+    @ManyToMany
+    @JoinTable(
+            name = "article_recommandation",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_recommande_id")
+    )
+    private Set<Article> articlesRecommandes = new LinkedHashSet<>();
+
 }
