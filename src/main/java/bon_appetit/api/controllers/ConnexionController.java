@@ -1,7 +1,5 @@
 package bon_appetit.api.controllers;
 
-import bon_appetit.api.models.Connexion;
-import bon_appetit.api.models.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,12 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import bon_appetit.api.models.Connexion;
 import bon_appetit.api.models.JwtResponse;
+import bon_appetit.api.models.Utilisateur;
 import bon_appetit.api.services.ConnexionService;
 import bon_appetit.api.services.UserDetailsService;
 import bon_appetit.api.util.JwtTokenUtil;
+import bon_appetit.api.util.OTPManager;
 
 @RestController
 @RequestMapping("api/connexions")
@@ -32,6 +34,9 @@ public class ConnexionController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private OTPManager otpManager;
+
     // creer une Connexion + vérifie si le login existe déjà avant
     @PostMapping
     public ResponseEntity<Connexion> createConnexion(@RequestBody Connexion connexion) {
@@ -42,23 +47,44 @@ public class ConnexionController {
         return ResponseEntity.ok(createdConnexion);
     }
 
-@PostMapping("/check")
-public ResponseEntity<?> checkConnexion(@RequestBody Connexion connexion) {
-    Connexion existingConnexion = connexionService.findByLogin(connexion.getLogin());
-    if (existingConnexion == null) {
-        return ResponseEntity.status(401).body("Login incorrect");
+    // Vérifie le login et le mot de passe, puis génère un OTP
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String login, @RequestParam String password) {
+        boolean authenticated = connexionService.authenticateAndGenerateOTP(login, password);
+        if (authenticated) {
+            return ResponseEntity.ok("OTP généré et envoyé en console.");
+        } else {
+            return ResponseEntity.status(401).body("Login ou mot de passe incorrect.");
+        }
     }
 
-    if (!connexion.getPassword().equals(existingConnexion.getPassword())) {
-        return ResponseEntity.status(401).body("Mot de passe incorrect");
+    @PostMapping("/verify-otp")
+    public ResponseEntity<String> verifyOTP(@RequestParam String login, @RequestParam String otp) {
+        boolean isValid = otpManager.verifyOTP(login, otp);
+        if (isValid) {
+            return ResponseEntity.ok("OTP vérifié avec succès.");
+        } else {
+            return ResponseEntity.status(401).body("OTP invalide ou expiré.");
+        }
     }
 
-    Utilisateur utilisateur = userDetailsService.loadUserByUsername(connexion.getLogin());
-    final String role = utilisateur.getRole().getNom();
-    final Integer userId = utilisateur.getId();
+    @PostMapping("/check")
+    public ResponseEntity<?> checkConnexion(@RequestBody Connexion connexion) {
+        Connexion existingConnexion = connexionService.findByLogin(connexion.getLogin());
+        if (existingConnexion == null) {
+            return ResponseEntity.status(401).body("Login incorrect");
+        }
 
-    return ResponseEntity.ok(new JwtResponse(null, role, userId));
-}
+        if (!connexion.getPassword().equals(existingConnexion.getPassword())) {
+            return ResponseEntity.status(401).body("Mot de passe incorrect");
+        }
+
+        Utilisateur utilisateur = userDetailsService.loadUserByUsername(connexion.getLogin());
+        final String role = utilisateur.getRole().getNom();
+        final Integer userId = utilisateur.getId();
+
+        return ResponseEntity.ok(new JwtResponse(null, role, userId));
+    }
 
     // trouver une connexion par son id
     @GetMapping("/{id}")
