@@ -40,11 +40,11 @@ public class SecurityConfig {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(authorize -> authorize
-                        // .anyRequest().permitAll()
+                         .anyRequest().permitAll()
                         // .requestMatchers("/api/**").permitAll() // Désactivé pour éviter que tout ne soit accessible par défaut
-                        .requestMatchers("/api/generate-token").permitAll()
+                        /*.requestMatchers("/api/generate-token").permitAll()
                         .requestMatchers("/api/recipes/**").authenticated() // Pour protéger ce endpoint
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated()*/
 
 
                 )
