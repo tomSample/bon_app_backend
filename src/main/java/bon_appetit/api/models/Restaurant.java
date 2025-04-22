@@ -48,7 +48,7 @@ public class Restaurant {
     @Column(name = "delai_preparation_commande", nullable = false)
     private Integer delaiPreparationCommande;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "utilisateur_id", nullable = false)
     private Utilisateur utilisateur;
