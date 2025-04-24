@@ -80,4 +80,33 @@ public class ArticleController {
         List<Article> articles = typeArticleHasArticleRepository.findArticlesByTypeAndRestaurant(typeId, restaurantId);
         return ResponseEntity.ok(articles);
     }
+
+    @PutMapping("/{restaurantId}/{articleId}")
+    public ResponseEntity<Article> updateArticle(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer articleId,
+            @RequestBody Map<String, Object> articleData) {
+        // Vérifier si l'article existe
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Article non trouvé"));
+
+        // Vérifier si l'article appartient au restaurant
+        if (!article.getRestaurant().getId().equals(restaurantId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        // Mettre à jour les champs de l'article
+        article.setNom((String) articleData.get("nom"));
+        article.setDescription((String) articleData.get("description"));
+        article.setPrix(((Number) articleData.get("prix")).doubleValue());
+        article.setImage((String) articleData.get("image"));
+        article.setPoids((Integer) articleData.get("poids"));
+        article.setStock((Integer) articleData.get("stock"));
+        article.setDuree((Integer) articleData.get("duree"));
+
+        // Sauvegarder les modifications
+        Article updatedArticle = articleRepository.save(article);
+
+        return ResponseEntity.ok(updatedArticle);
+    }
 }
