@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,6 +33,7 @@ public class ArticleController {
     @Autowired
     private TypeArticleHasArticleRepository typeArticleHasArticleRepository;
 
+    // Endpoint pour créer un article
     @PostMapping
     public ResponseEntity<Article> createArticle(@RequestBody Map<String, Object> articleData) {
         // Récupérer le restaurant
@@ -68,5 +70,14 @@ public class ArticleController {
         typeArticleHasArticleRepository.save(typeArticleHasArticle);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
+    }
+
+    // Endpoint pour récupérer les articles par type et restaurant
+    @GetMapping("/restaurant/{restaurantId}/type/{typeId}")
+    public ResponseEntity<List<Article>> getArticlesByRestaurantAndType(
+            @PathVariable Integer restaurantId,
+            @PathVariable Integer typeId) {
+        List<Article> articles = typeArticleHasArticleRepository.findArticlesByTypeAndRestaurant(typeId, restaurantId);
+        return ResponseEntity.ok(articles);
     }
 }
