@@ -10,20 +10,22 @@ import org.hibernate.annotations.OnDeleteAction;
 @Setter
 @Entity
 @Table(name = "type_article_has_article")
+@IdClass(TypeArticleHasArticleId.class) // Utilisation de la clé composite
 public class TypeArticleHasArticle {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @Column(name = "type_article_id", nullable = false)
+    private Integer typeArticle; // ID du type d'article
+
+    @Id
+    @Column(name = "article_id", nullable = false)
+    private Integer article; // ID de l'article
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "type_article_id", nullable = false)
-    private TypeArticle typeArticle;
+    @JoinColumn(name = "type_article_id", nullable = false, insertable = false, updatable = false)
+    private TypeArticle typeArticleEntity; // Relation avec l'entité TypeArticle
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "article_id", nullable = false)
-    private Article article;
-
+    @JoinColumn(name = "article_id", nullable = false, insertable = false, updatable = false)
+    private Article articleEntity; // Relation avec l'entité Article
 }
