@@ -2,6 +2,7 @@ package bon_appetit.api.controllers;
 
 import bon_appetit.api.models.*;
 import bon_appetit.api.services.UtilisateurService;
+import bon_appetit.api.dto.AdresseDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,22 @@ public class UtilisateurController {
     @PostMapping
     public ResponseEntity<?> createUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO) {
         return utilisateurService.createUtilisateur(utilisateurDTO);
+    }
+
+    @PostMapping("/{id}/adresses")
+    public ResponseEntity<?> addAdresseToUtilisateur(
+            @PathVariable Integer id,
+            @RequestBody AdresseDTO adresseDTO) {
+        try {
+            Utilisateur utilisateur = utilisateurService.findById(id);
+            if (utilisateur == null) {
+                return ResponseEntity.notFound().build();
+            }
+            Adresse nouvelleAdresse = utilisateurService.addAdresseToUtilisateur(utilisateur, adresseDTO);
+            return ResponseEntity.ok(nouvelleAdresse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")

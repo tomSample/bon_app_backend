@@ -1,6 +1,7 @@
 package bon_appetit.api.services;
 
 import bon_appetit.api.models.*;
+import bon_appetit.api.dto.AdresseDTO;
 import bon_appetit.api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UtilisateurService {
@@ -97,6 +99,38 @@ public class UtilisateurService {
 
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public Adresse addAdresseToUtilisateur(Utilisateur utilisateur, AdresseDTO adresseDTO) {
+        // Créer ou retrouver l'adresse
+        Adresse adresse = new Adresse();
+        adresse.setNumero(adresseDTO.getNumero());
+        adresse.setRue(adresseDTO.getRue());
+        adresse.setComplement(adresseDTO.getComplement());
+        adresse.setLongitude(adresseDTO.getLongitude());
+        adresse.setLatitude(adresseDTO.getLatitude());
+        Adresse savedAdresse = adresseRepository.save(adresse);
+
+        // Créer ou retrouver la ville
+        Ville ville = villeRepository.findByNomAndCodePostal(adresseDTO.getVille(), adresseDTO.getCodePostal())
+            .orElseGet(() -> {
+                Ville v = new Ville();
+                v.setNom(adresseDTO.getVille());
+                v.setCodePostal(adresseDTO.getCodePostal());
+                return villeRepository.save(v);
+            });
+        savedAdresse.getVilles().add(ville);
+        adresseRepository.save(savedAdresse);
+
+        // Lier l'adresse à l'utilisateur via Localisation
+        Localisation localisation = new Localisation();
+        localisation.setAdresse(savedAdresse);
+        localisation.setUtilisateur(utilisateur);
+        localisation.setAdresseParDefaut(Boolean.TRUE.equals(adresseDTO.getAdresseParDefaut()) ? (byte) 1 : (byte) 0);
+        localisation.setAdresseTravail(Boolean.TRUE.equals(adresseDTO.getAdresseTravail()) ? (byte) 1 : (byte) 0);
+        localisationRepository.save(localisation);
+
+        return savedAdresse;
     }
 
     public Utilisateur findById(Integer id) {
