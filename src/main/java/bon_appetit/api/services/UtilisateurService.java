@@ -71,8 +71,14 @@ public class UtilisateurService {
             Localisation localisation = new Localisation();
             localisation.setAdresse(savedAdresse);
             localisation.setUtilisateur(savedUtilisateur);
-            localisation.setAdresseParDefaut((byte) 1); // Utiliser (byte) 1
-            localisation.setAdresseTravail((byte) 0); // Utiliser (byte) 0
+
+            if ("travail".equalsIgnoreCase(utilisateurDTO.getTypeAdresse())) {
+                localisation.setAdresseParDefaut((byte) 0);
+                localisation.setAdresseTravail((byte) 1);
+            } else {
+                localisation.setAdresseParDefaut((byte) 1);
+                localisation.setAdresseTravail((byte) 0);
+            }
             localisationRepository.save(localisation);
 
             // Préparer la réponse

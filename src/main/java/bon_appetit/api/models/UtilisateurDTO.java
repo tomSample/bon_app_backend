@@ -18,4 +18,5 @@ public class UtilisateurDTO {
     private String ville;
     private String codePostal;
     private Integer role_id;
+    private String typeAdresse;
 }
