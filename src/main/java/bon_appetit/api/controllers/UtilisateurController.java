@@ -2,6 +2,7 @@ package bon_appetit.api.controllers;
 
 import bon_appetit.api.models.*;
 import bon_appetit.api.services.UtilisateurService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/utilisateurs")
@@ -45,6 +47,40 @@ public class UtilisateurController {
     public ResponseEntity<Iterable<Utilisateur>> getAllUtilisateurs() {
         Iterable<Utilisateur> utilisateurs = utilisateurService.findAll();
         return ResponseEntity.ok(utilisateurs);
+    }
+
+    @GetMapping("/{id}/adresses")
+    public ResponseEntity<?> getAdressesByUtilisateurId(@PathVariable Integer id) {
+        Utilisateur utilisateur = utilisateurService.findById(id);
+        if (utilisateur == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Set<Localisation> localisations = utilisateur.getLocalisations();
+        var adresses = localisations.stream()
+                .map(localisation -> {
+                    Adresse adresse = localisation.getAdresse();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", adresse.getId());
+                    map.put("numero", adresse.getNumero());
+                    map.put("rue", adresse.getRue());
+                    map.put("complement", adresse.getComplement());
+                    map.put("longitude", adresse.getLongitude());
+                    map.put("latitude", adresse.getLatitude());
+                    // On prend la première ville liée à l'adresse (si plusieurs, à adapter)
+                    Ville ville = adresse.getVilles().stream().findFirst().orElse(null);
+                    if (ville != null) {
+                        map.put("codePostal", ville.getCodePostal());
+                        map.put("ville", ville.getNom());
+                    } else {
+                        map.put("codePostal", "");
+                        map.put("ville", "");
+                    }
+                    map.put("adresseParDefaut", localisation.getAdresseParDefaut());
+                    map.put("adresseTravail", localisation.getAdresseTravail());
+                    return map;
+                })
+                .toList();
+        return ResponseEntity.ok(adresses);
     }
 
     @DeleteMapping("/{id}")
