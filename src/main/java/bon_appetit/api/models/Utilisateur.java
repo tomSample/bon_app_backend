@@ -52,8 +52,10 @@ public class Utilisateur {
     @Column(name = "vehicule_livreur", length = 45)
     private String vehiculeLivreur;
 
-    @Column(name = "restaurant_favoris", length = 45)
-    private String restaurantFavoris;
+    // MODIFICATION : Relation vers Restaurant au lieu de String
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_favoris_id")
+    private Restaurant restaurantFavoris;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -83,4 +85,20 @@ public class Utilisateur {
     @OneToMany(mappedBy = "utilisateur")
     private Set<Restaurant> restaurants = new LinkedHashSet<>();
 
+    // Méthodes utilitaires pour les notifications
+    public boolean isNotifEmailActive() {
+        return notifEmail != null && notifEmail == 1;
+    }
+
+    public boolean isNotifPromoActive() {
+        return notifPromo != null && notifPromo == 1;
+    }
+
+    public void setNotifEmail(boolean active) {
+        this.notifEmail = active ? (byte) 1 : (byte) 0;
+    }
+
+    public void setNotifPromo(boolean active) {
+        this.notifPromo = active ? (byte) 1 : (byte) 0;
+    }
 }
