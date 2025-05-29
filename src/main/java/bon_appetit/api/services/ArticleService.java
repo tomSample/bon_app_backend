@@ -59,4 +59,18 @@ public class ArticleService {
         return article.getArticlesRecommandes();
     }
 
+    // Modifier le statut de sélection d'un article
+    public Article updateSelection(Integer articleId, Boolean selection) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Article non trouvé"));
+
+        article.setSelection(selection);
+        return articleRepository.save(article);
+    }
+
+    // Récupérer les articles sélectionnés d'un restaurant
+    public List<Article> getSelectedArticlesByRestaurant(Integer restaurantId) {
+        return articleRepository.findByRestaurantIdAndSelectionTrue(restaurantId);
+    }
+
 }

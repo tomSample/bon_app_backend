@@ -1,0 +1,82 @@
+src
+├── main
+│   ├── java
+│   │   └── bon_appetit
+│   │       └── api
+│   │           ├── ApiApplication.java
+│   │           ├── config
+│   │           │   ├── JacksonConfig.java
+│   │           │   ├── JwtAuthentication.java
+│   │           │   ├── JwtAuthenticationFilter.java
+│   │           │   └── SecurityConfig.java
+│   │           ├── controllers
+│   │           │   ├── ArticleController.java
+│   │           │   ├── AuthController.java
+│   │           │   ├── ConnexionController.java
+│   │           │   ├── RecipeController.java
+│   │           │   ├── ReservationController.java
+│   │           │   ├── RestaurantController.java
+│   │           │   ├── TypeCuisineController.java
+│   │           │   ├── UtilisateurController.java
+│   │           │   └── VilleController.java
+│   │           ├── entities
+│   │           │   └── Recipe.java
+│   │           ├── exceptions
+│   │           │   ├── GlobalExceptionHandler.java
+│   │           │   └── TokenInvalidException.java
+│   │           ├── models
+│   │           │   ├── Action.java
+│   │           │   ├── Adresse.java
+│   │           │   ├── Article.java
+│   │           │   ├── Avi.java
+│   │           │   ├── Commande.java
+│   │           │   ├── Connexion.java
+│   │           │   ├── Contenu.java
+│   │           │   ├── Etat.java
+│   │           │   ├── JwtResponse.java
+│   │           │   ├── Localisation.java
+│   │           │   ├── Log.java
+│   │           │   ├── Reservation.java
+│   │           │   ├── Restaurant.java
+│   │           │   ├── RestaurantHasVille.java
+│   │           │   ├── Role.java
+│   │           │   ├── Statut.java
+│   │           │   ├── TypeArticle.java
+│   │           │   ├── TypeArticleHasArticle.java
+│   │           │   ├── TypeCuisine.java
+│   │           │   ├── TypeCuisineHasRestaurant.java
+│   │           │   ├── Utilisateur.java
+│   │           │   └── Ville.java
+│   │           ├── repositories
+│   │           │   ├── ActionRepository.java
+│   │           │   ├── ArticleRepository.java
+│   │           │   ├── ConnexionRepository.java
+│   │           │   ├── LogRepository.java
+│   │           │   ├── RecipeRepository.java
+│   │           │   ├── ReservationRepository.java
+│   │           │   ├── RestaurantRepository.java
+│   │           │   ├── TypeCuisineRepository.java
+│   │           │   ├── UtilisateurRepository.java
+│   │           │   └── VilleRepository.java
+│   │           ├── services
+│   │           │   ├── ArticleService.java
+│   │           │   ├── ConnexionService.java
+│   │           │   ├── JwtTokenProvider.java
+│   │           │   ├── ReservationService.java
+│   │           │   ├── RestaurantService.java
+│   │           │   ├── TypeCuisineService.java
+│   │           │   ├── UserDetailsService.java
+│   │           │   ├── UtilisateurService.java
+│   │           │   └── VilleService.java
+│   │           └── util
+│   │               └── JwtTokenUtil.java
+│   └── resources
+│       ├── application-AM.properties
+│       ├── application-TG.properties
+│       ├── application-YG.properties
+│       └── application.properties
+└── test
+    └── java
+        └── bon_appetit
+            └── api
+                └── ApiApplicationTests.java

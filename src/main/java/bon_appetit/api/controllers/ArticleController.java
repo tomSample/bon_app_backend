@@ -51,4 +51,26 @@ public class ArticleController {
         Set<Article> recommendations = articleService.getRecommendationsForArticle(articleId);
         return ResponseEntity.ok(recommendations);
     }
+
+    // PATCH - Modifier le statut de sélection d'un article
+    @PatchMapping("/{articleId}/selection")
+    public ResponseEntity<Article> toggleSelection(@PathVariable Integer articleId, @RequestParam Boolean selection) {
+        try {
+            Article updatedArticle = articleService.updateSelection(articleId, selection);
+            return ResponseEntity.ok(updatedArticle);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // GET - Récupérer les articles sélectionnés d'un restaurant
+    @GetMapping("/restaurant/{restaurantId}/selection")
+    public ResponseEntity<List<Article>> getSelectedArticlesByRestaurant(@PathVariable Integer restaurantId) {
+        try {
+            List<Article> selectedArticles = articleService.getSelectedArticlesByRestaurant(restaurantId);
+            return ResponseEntity.ok(selectedArticles);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

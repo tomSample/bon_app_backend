@@ -62,4 +62,7 @@ public class Article {
     )
     private Set<Article> articlesRecommandes = new LinkedHashSet<>();
 
+    // Attribut de sélection de plats
+    @Column(name = "selection", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean selection = false;
 }
